@@ -80,7 +80,7 @@ describe GildedRose do
 
       context 'when more than 10 days left for sell by' do
         it ' increases quality by 1' do
-          item = Item.new('Backstage passes to a TAFKAL80ETC concert', 11, 9)
+          item = Item.new('Backstage passes to a TAFKAL80ETC concert', 12, 9)
           gilded_rose = GildedRose.new([item])
           gilded_rose.update_quality
           expect(item.quality).to eq 10
@@ -89,7 +89,7 @@ describe GildedRose do
 
       context 'when more than 5 days and less than 10 days for sell by' do
         it 'increases quality by 2' do
-          item = Item.new('Backstage passes to a TAFKAL80ETC concert', 6, 9)
+          item = Item.new('Backstage passes to a TAFKAL80ETC concert', 7, 9)
           gilded_rose = GildedRose.new([item])
           gilded_rose.update_quality
           expect(item.quality).to eq 11
@@ -117,7 +117,7 @@ describe GildedRose do
     context 'Conjured Item' do
       context 'when sell in date has not passed' do
         it 'degardes quality by 2' do
-          item = Item.new('Conjured', 5, 2)
+          item = Item.new('Conjured', 1, 2)
           gilded_rose = GildedRose.new([item])
           gilded_rose.update_quality
           expect(item.quality).to eq 0

@@ -1,3 +1,4 @@
+require 'byebug'
 class GildedRose
   def initialize(items)
     @items = items
@@ -43,7 +44,6 @@ class DefaultUpdater
   end
 
   def update
-    # call quality first before changing the sell in date
     change_quality
     change_sell_in
   end
@@ -53,25 +53,23 @@ class DefaultUpdater
   end
 
   def change_quality
-    quality = if item.sell_in > 0
-                item.quality - 1
-              else
-                item.quality - 2
-              end
-
-    item.quality = quality if quality >= 0
+    if item.sell_in > 0
+      item.quality = item.quality - 1
+    else
+      item.quality = item.quality - 2
+    end
+    item.quality = 0 if item.quality < 0
   end
 end
 
 class AgedBrieUpdater < DefaultUpdater
   def change_quality
-    quality = if item.sell_in > 0
-                item.quality + 1
-              else
-                item.quality + 2
-              end
-    item.quality = 50 if quality > 50
-    item.quality = quality if quality <= 50
+   if item.sell_in > 0
+      item.quality = item.quality + 1
+    else
+      item.quality = item.quality + 2
+    end
+    item.quality = 50 if item.quality > 50
   end
 end
 
@@ -100,11 +98,11 @@ end
 class ConjuredUpdater < DefaultUpdater
   def change_quality
     # twice the speed of normal item
-    item.quality = if item.sell_in > 0
-                     item.quality - 2
-                   else
-                     item.quality - 4
-                   end
+    if item.sell_in > 0
+       item.quality = item.quality - 2
+     else
+       item.quality = item.quality - 4
+     end
     item.quality = 0 if item.quality < 0
   end
 end
