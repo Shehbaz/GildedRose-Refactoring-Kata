@@ -109,7 +109,7 @@ describe GildedRose do
       end
 
       context 'when sell by passed' do
-        it 'increases quality by 3' do
+        it 'set quality to 0' do
           item = Item.new(name = 'Backstage passes to a TAFKAL80ETC concert', sell_in = 0, quality = 9)
           gilded_rose = GildedRose.new([item])
           gilded_rose.update_quality

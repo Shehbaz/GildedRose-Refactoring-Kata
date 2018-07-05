@@ -1,15 +1,18 @@
+require 'byebug'
 class GildedRose
 
   def initialize(items)
     @items = items
   end
   def update_quality()
-    #todo (if time permits) create a function to get updater 
+    #todo (if time permits) create a function to get updater based on item name
     @items.each do |item|
       if item.name == 'Aged Brie'
         AgedBrieUpdater.new(item).update  
       elsif item.name == 'Sulfuras, Hand of Ragnaros'
         SulfurasUpdater.new(item).update                
+      elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
+        BackstagePassUpdater.new(item).update  
       else
         DefaultUpdater.new(item).update               
       end             
@@ -39,8 +42,9 @@ class DefaultUpdater
   end
 
   def update
-    change_sell_in
+    #call quality first before changing the sell in date
     change_quality
+    change_sell_in
   end
 
   def change_sell_in
@@ -67,19 +71,35 @@ class AgedBrieUpdater < DefaultUpdater
       quality = item.quality + 1
     else
       quality = item.quality + 2
-    end
-    if quality <= 50 
-      item.quality = quality 
-    end
+    end  
+    item.quality = 50 if quality > 50
+    item.quality = quality if quality <= 50
   end
 end
 
 class SulfurasUpdater < DefaultUpdater
-
    #do nothing as we dont want to change quality or sell in
   def change_quality; end
    
   def change_sell_in; end
 
 end
+
+class BackstagePassUpdater < DefaultUpdater
+
+  def change_quality  
+    quality = 0
+    if item.sell_in > 10
+      quality = item.quality + 1
+    elsif item.sell_in > 5
+     quality = item.quality + 2
+    elsif item.sell_in > 0
+      quality = item.quality + 3
+    end
+    item.quality = 50 if quality > 50
+    item.quality = quality if quality <= 50
+  end 
+end
+
+
 
