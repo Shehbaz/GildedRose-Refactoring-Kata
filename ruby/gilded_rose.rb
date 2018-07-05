@@ -5,7 +5,11 @@ class GildedRose
   end
   def update_quality()
     @items.each do |item|
-      DefaultUpdater.new(item).update               
+      if item.name == 'Aged Brie'
+        AgedBrieUpdater.new(item).update       
+      else
+        DefaultUpdater.new(item).update               
+      end             
     end
   end
 end
@@ -44,6 +48,20 @@ class DefaultUpdater
     end
 
     if quality >= 0
+      item.quality = quality 
+    end
+  end
+end
+
+class AgedBrieUpdater < DefaultUpdater
+
+  def change_quality
+    if item.sell_in > 0
+      quality = item.quality + 1
+    else
+      quality = item.quality + 2
+    end
+    if quality <= 50 
       item.quality = quality 
     end
   end
