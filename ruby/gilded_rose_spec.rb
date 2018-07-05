@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), 'gilded_rose')
 
 describe GildedRose do
   
-  describe '#update_quality' do
+  describe '#update' do
 
    context 'Normal Item' do
 
@@ -116,6 +116,22 @@ describe GildedRose do
           expect(item.quality).to eq 0
         end
       end
+    end
+    context 'Conjured Item' do
+      it 'degardes quality by 2' do
+          item = Item.new(name = 'Conjured', sell_in = 5, quality = 9)
+          gilded_rose = GildedRose.new([item])
+          gilded_rose.update_quality
+          expect(item.quality).to eq 7
+      end
+
+      it 'lowers sell_in value by 1' do
+        item = Item.new(name = 'Conjured', sell_in = 10, quality = 6)
+        gilded_rose = GildedRose.new([item])
+        gilded_rose.update_quality
+        expect(item.sell_in).to eq 9
+      end
+
     end
   end
 end
