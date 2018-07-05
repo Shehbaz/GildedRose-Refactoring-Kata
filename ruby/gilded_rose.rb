@@ -1,4 +1,3 @@
-require 'byebug'
 class GildedRose
   def initialize(items)
     @items = items
