@@ -4,9 +4,12 @@ class GildedRose
     @items = items
   end
   def update_quality()
+    #todo (if time permits) create a function to get updater 
     @items.each do |item|
       if item.name == 'Aged Brie'
-        AgedBrieUpdater.new(item).update       
+        AgedBrieUpdater.new(item).update  
+      elsif item.name == 'Sulfuras, Hand of Ragnaros'
+        SulfurasUpdater.new(item).update                
       else
         DefaultUpdater.new(item).update               
       end             
@@ -36,8 +39,12 @@ class DefaultUpdater
   end
 
   def update
-    item.sell_in = item.sell_in - 1
+    change_sell_in
     change_quality
+  end
+
+  def change_sell_in
+    item.sell_in = item.sell_in - 1
   end
   
   def change_quality
@@ -66,3 +73,13 @@ class AgedBrieUpdater < DefaultUpdater
     end
   end
 end
+
+class SulfurasUpdater < DefaultUpdater
+
+   #do nothing as we dont want to change quality or sell in
+  def change_quality; end
+   
+  def change_sell_in; end
+
+end
+
