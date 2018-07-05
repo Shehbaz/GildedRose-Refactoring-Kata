@@ -13,6 +13,8 @@ class GildedRose
         SulfurasUpdater.new(item).update                
       elsif item.name == 'Backstage passes to a TAFKAL80ETC concert'
         BackstagePassUpdater.new(item).update  
+      elsif item.name == 'Conjured'
+        ConjuredUpdater.new(item).update
       else
         DefaultUpdater.new(item).update               
       end             
@@ -100,6 +102,21 @@ class BackstagePassUpdater < DefaultUpdater
     item.quality = quality if quality <= 50
   end 
 end
+
+class ConjuredUpdater < DefaultUpdater
+
+  def change_quality  
+    #twice the speed of normal item
+    if item.sell_in > 0
+      item.quality = item.quality - 2
+    else
+      item.quality = item.quality - 4
+    end
+    item.quality = 0 if item.quality < 0
+  end 
+end
+
+
 
 
 

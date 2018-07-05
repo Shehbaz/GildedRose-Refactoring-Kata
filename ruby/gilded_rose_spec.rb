@@ -118,11 +118,29 @@ describe GildedRose do
       end
     end
     context 'Conjured Item' do
-      it 'degardes quality by 2' do
-          item = Item.new(name = 'Conjured', sell_in = 5, quality = 9)
-          gilded_rose = GildedRose.new([item])
-          gilded_rose.update_quality
-          expect(item.quality).to eq 7
+      context 'when sell in date has not passed' do
+        it 'degardes quality by 2' do
+            item = Item.new(name = 'Conjured', sell_in = 5, quality = 2)
+            gilded_rose = GildedRose.new([item])
+            gilded_rose.update_quality
+            expect(item.quality).to eq 0
+        end
+        it 'degardes quality twice the speed with odd value' do
+            item = Item.new(name = 'Conjured', sell_in = 5, quality = 3)
+            gilded_rose = GildedRose.new([item])
+            gilded_rose.update_quality
+            gilded_rose.update_quality
+            expect(item.quality).to eq 0
+        end
+      end
+
+      context 'when sell in date has passed' do
+        it 'degardes quality by 4' do
+            item = Item.new(name = 'Conjured', sell_in = 0, quality = 4)
+            gilded_rose = GildedRose.new([item])
+            gilded_rose.update_quality
+            expect(item.quality).to eq 0
+        end
       end
 
       it 'lowers sell_in value by 1' do
